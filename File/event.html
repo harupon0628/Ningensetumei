@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-K6Q22WLT6H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-K6Q22WLT6H');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>年末企画：自分の体に感謝を言おう | 人間取扱説明書</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* カウントダウン表示用の追加スタイル（既存デザインに合わせたミニマル設計） */
+    .countdown-box {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      margin: 0 0 80px;
+      text-align: center;
+    }
+
+    .countdown-label {
+      margin: 0 0 16px;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--text-sub);
+    }
+
+    .countdown-timer {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .time-unit {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 12px;
+      min-width: 72px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .time-num {
+      font-size: 1.75rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .time-text {
+      font-size: 0.75rem;
+      color: var(--text-sub);
+      margin-top: 4px;
+    }
+
+    .countdown-target {
+      margin: 16px 0 0;
+      font-size: 0.8125rem;
+      color: var(--text-sub);
+    }
+
+    @media (max-width: 480px) {
+      .countdown-box {
+        padding: 24px 16px;
+        margin-bottom: 64px;
+      }
+      .time-unit {
+        min-width: 64px;
+        padding: 12px 8px;
+      }
+      .time-num {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ハンバーガーボタン -->
+  <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="メニューを開く">
+    <span class="hamburger-bar"></span>
+    <span class="hamburger-bar"></span>
+    <span class="hamburger-bar"></span>
+  </button>
+
+  <!-- オーバーレイ背景 -->
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <!-- ナビゲーションメニュー -->
+  <nav class="drawer-nav" id="drawerNav">
+    <ul class="drawer-menu">
+      <li><a href="index.html">トップ</a></li>
+      <li><a href="mokuji.html">目次</a></li>
+      <li><a href="event.html">イベント</a></li>
+      <li><a href="kiyaku.html">利用規約</a></li>
+      <li><a href="foam.html">お問い合わせ</a></li>
+      <li><a href="Maintenance.html">メンテナンス情報</a></li>
+      <li><button type="button" class="menu-info-btn" id="infoMenuBtn">情報</button></li>
+    </ul>
+  </nav>
+
+  <!-- 情報表示用モーダル（ポップアップ） -->
+  <div class="info-modal" id="infoModal" aria-hidden="true">
+    <div class="info-modal-overlay" id="modalOverlay"></div>
+    <div class="info-modal-content">
+      <div class="info-modal-header">
+        <h3>閲覧環境・情報</h3>
+        <button type="button" class="info-modal-close" id="modalCloseBtn" aria-label="閉じる">&times;</button>
+      </div>
+      <div class="info-modal-body">
+        <dl class="info-list">
+          <dt>利用ブラウザ</dt>
+          <dd id="infoBrowser">-</dd>
+          <dt>OS</dt>
+          <dd id="infoOS">-</dd>
+          <dt>OSバージョン</dt>
+          <dd id="infoOSVer">-</dd>
+          <dt>端末名</dt>
+          <dd id="infoDevice">-</dd>
+          <dt>アクセス日時</dt>
+          <dd id="infoTime">-</dd>
+          <dt>人間取扱説明書バージョン</dt>
+          <dd id="infoAppVer">-</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <main class="sheet">
+    
+    <!-- 特設ページヘッダー -->
+    <header class="cover">
+      <span style="font-size: 0.875rem; color: var(--accent); font-weight: 600; letter-spacing: 0.05em;">年末特別企画</span>
+      <h1>自分の体に<br>感謝を言おう</h1>
+      <p class="cover-sub">2026年を駆け抜けたあなたの体へ、言葉のプレゼントを。</p>
+      <p class="cover-ver">開催期間：2026年12月1日 〜 未定</p>
+    </header>
+
+    <!-- 開催前：カウントダウンエリア -->
+    <div id="countdownArea" class="countdown-box">
+      <p class="countdown-label">イベント開始まであと</p>
+      <div class="countdown-timer">
+        <div class="time-unit">
+          <span class="time-num" id="cdDays">--</span>
+          <span class="time-text">日</span>
+        </div>
+        <div class="time-unit">
+          <span class="time-num" id="cdHours">--</span>
+          <span class="time-text">時間</span>
+        </div>
+        <div class="time-unit">
+          <span class="time-num" id="cdMinutes">--</span>
+          <span class="time-text">分</span>
+        </div>
+        <div class="time-unit">
+          <span class="time-num" id="cdSeconds">--</span>
+          <span class="time-text">秒</span>
+        </div>
+      </div>
+      <p class="countdown-target">2026年12月1日 00:00 (JST) 公開予定</p>
+    </div>
+
+    <!-- 開催後：特設ページ（投稿・一覧）への案内ボタン（初期状態は非表示） -->
+    <div id="eventOpenArea" class="mokuji-wrapper" style="margin-bottom: 80px;" hidden>
+      <p style="margin-bottom: 16px; font-weight: 600; color: var(--accent);"> イベントが開催されました！</p>
+      <a href="thanks.html" class="btn-mokuji">投稿・みんなのメッセージを見る ➔</a>
+    </div>
+
+    <!-- 企画について -->
+    <section class="block">
+      <h2>企画の趣旨について</h2>
+      <p>普段、私たちは意識することなく、歩いたり、食べたり、眠ったりして毎日を過ごしています。ですが、その裏で私たちの体は1年間、休みなく働き続けてくれました。</p>
+      <p>「今年一番がんばってくれた足に」「休まず消化してくれた胃袋に」など、体のパーツや自分自身に向けて、今年一年の感謝の気持ちを言葉にして残してみませんか？</p>
+    </section>
+
+    <!-- 参加の流れ -->
+    <section class="block">
+      <h2>参加方法</h2>
+      <ul class="caution-list">
+        <li><strong>1. 投稿ページへ移動</strong>公開時間になると表示されるボタンから、投稿・閲覧ページへアクセスします。</li>
+        <li><strong>2. メッセージを書く</strong>ニックネームや部位（任意）と、体への感謝のメッセージを入力します。</li>
+        <li><strong>3. みんなの声を覗いてみる</strong>投稿すると、一覧にリアルタイムで反映されます。他の人がどんなところに感謝しているか見てみましょう！</li>
+      </ul>
+    </section>
+
+    <!-- 注意事項 -->
+    <section class="caution">
+      <h2 class="caution-title">参加にあたってのお願い</h2>
+      <ul class="caution-list">
+        <li>投稿されたメッセージは、特設ページ内の「みんなからの感謝一覧」に公開されます。</li>
+        <li>個人情報や公序良俗に反する内容は記載しないようご協力をお願いいたします。</li>
+      </ul>
+    </section>
+
+    <div class="back-wrapper">
+      <a href="index.html" class="btn-back">ホームに戻る</a>
+    </div>
+
+  </main>
+
+  <script src="main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 目標日時：2026年12月1日 00:00:00 (JST / +09:00)
+      const targetTime = new Date('2026-12-01T00:00:00+09:00').getTime();
+
+      const countdownArea = document.getElementById('countdownArea');
+      const eventOpenArea = document.getElementById('eventOpenArea');
+      const elDays = document.getElementById('cdDays');
+      const elHours = document.getElementById('cdHours');
+      const elMinutes = document.getElementById('cdMinutes');
+      const elSeconds = document.getElementById('cdSeconds');
+
+      function updateCountdown() {
+        const now = Date.now();
+        const diff = targetTime - now;
+
+        // 目標日時に達した（または過ぎた）場合
+        if (diff <= 0) {
+          countdownArea.hidden = true;
+          eventOpenArea.hidden = false;
+          return true; // 終了フラグ
+        }
+
+        // 残り時間の計算
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / 1000 / 60) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        elDays.textContent = String(days).padStart(2, '0');
+        elHours.textContent = String(hours).padStart(2, '0');
+        elMinutes.textContent = String(minutes).padStart(2, '0');
+        elSeconds.textContent = String(seconds).padStart(2, '0');
+        return false;
+      }
+
+      // 初回実行（すでに12/1を過ぎていれば即座にボタンを表示）
+      const isFinished = updateCountdown();
+
+      // まだ開催前なら1秒ごとにカウントダウンを更新
+      if (!isFinished) {
+        const timerId = setInterval(() => {
+          if (updateCountdown()) {
+            clearInterval(timerId);
+          }
+        }, 1000);
+      }
+    });
+  </script>
+</body>
+</html>
